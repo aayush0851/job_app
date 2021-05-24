@@ -8,9 +8,13 @@ const applicationSchema: Schema = new Schema({
         enum: [ApplicationStatus.ACCEPTED, ApplicationStatus.REJECTED, ApplicationStatus.PENDING],
         default: ApplicationStatus.PENDING
     },
-    applicant_id: {
+    applicant: {
         type: Schema.Types.ObjectId,
         ref: 'candidate'
+    },
+    job: {
+        type: Schema.Types.ObjectId,
+        ref: 'job'
     }
 }, {
     timestamps: true

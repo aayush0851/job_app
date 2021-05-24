@@ -10,7 +10,7 @@ const jobSchema: Schema = new Schema({
     },
     job_description: {
         type: String,
-        required: false
+        required: true
     },
     status: {
         type: Boolean,
@@ -19,13 +19,20 @@ const jobSchema: Schema = new Schema({
     job_type: {
         type: String,
         enum: [JobTypes.FULL_TIME, JobTypes.PART_TIME, JobTypes.INTERNSHIP],
-        default: JobTypes.FULL_TIME,
-        required: true
+        default: JobTypes.FULL_TIME
     },
     no_of_vacancies: {
         type: Number,
         required: true
-    }
+    },
+    organization: {
+        type: Schema.Types.ObjectId,
+        ref: 'recruiter'
+    },
+    applications: [{
+        type: Schema.Types.ObjectId,
+        ref: 'application'
+    }]
 }, {
     timestamps: true
 });

@@ -2,14 +2,22 @@ import { model, Schema } from 'mongoose';
 import { RecruiterInterface } from '../interface/recruiter.interface';
 
 const recruiterSchema: Schema = new Schema({
-    first_name: {
+    organization_name: {
         type: String,
         required: true,
-        min: 3
+        min: 2
     },
-    last_name: {
+    organization_description: {
         type: String,
-        required: false,
+        required: false
+    },
+    address: {
+        type: String,
+        required: false
+    },
+    website: {
+        type: String,
+        required: true
     },
     email: {
         type: String,

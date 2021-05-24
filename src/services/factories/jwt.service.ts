@@ -7,12 +7,12 @@ class JwtService {
     }
 
     async createToken(userId: string): Promise<string> {
-        return jwt.sign(userId, JWT_SECRET, {
+        return jwt.sign({_id: userId}, JWT_SECRET, {
             expiresIn: "4h"
         });
     }
 
-    async parseToken(token: string): Promise<any> {
+    parseToken(token: string) {
         return jwt.decode(token);
     }
 }

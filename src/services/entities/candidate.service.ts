@@ -1,36 +1,27 @@
 import { Candidate } from "../../models/candidate.model";
 import { CandidateInterface } from "../../interface/candidate.interface";
-import moment from "moment";
+import { hashSync } from "bcrypt";
 
 class CandidateService {
     static getInstance(): CandidateService {
         return new CandidateService();
     }
 
-    async create(payload: CandidateInterface): Promise<any> {
-        return Candidate.create(payload);
+    async get(id: string): Promise<CandidateInterface> {
+        return Candidate.findById(id);
     }
 
-    async getCandidateByEmail(email: string): Promise<any> {
-        return Candidate.findOne({
-            email: email
+    async create(payload: CandidateInterface): Promise<CandidateInterface> {
+        return Candidate.create({
+            ...payload,
+            password: hashSync(payload.password, 5)
         });
     }
 
-    async candidateEmailNotExists(email: string): Promise<string> {
-        const candidate = await this.getCandidateByEmail(email);
-        if(candidate){
-            throw new Error('Email already in use');
-        }
-        return email;
-    }
-
-    async candidateEmailExists(email: string): Promise<string> {
-        const candidate = await this.getCandidateByEmail(email);
-        if(!candidate){
-            throw new Error('Invalid Email ID');
-        }
-        return email;
+    async getCandidateByEmail(email: string): Promise<CandidateInterface> {
+        return Candidate.findOne({
+            email: email
+        });
     }
 }
 
