@@ -1,0 +1,9 @@
+# Dependency directory
+node_modules
+
+# Ignore built ts files
+dist/**/*
+package-lock.json
+
+# Environments
+.env
