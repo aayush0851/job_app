@@ -34,8 +34,10 @@ export const addApplication = baseController(async (req: Request) => {
                 else if(job.no_of_vacancies <= 0){
                     applicationData.message = "There are no vacancies left for this job";
                 }
+                else{
+                    applicationData.application = await applicationService.create(jobId, req.user._id);
+                }
     
-                applicationData.application = await applicationService.create(jobId, req.user._id);
             }else{
                 applicationData.message = "You have already applied to this job";
                 applicationData.application = application;

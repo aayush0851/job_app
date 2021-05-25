@@ -4,7 +4,6 @@ import { addApplication, deleteApplication, rejectOrAcceptCandidateApplication, 
 import { recruiterMiddleware } from "../middleware/recruiter.middleware";
 import { jobMiddleware } from "../middleware/job.middleware";
 import { candidateMiddleware } from "../middleware/candidate.middleware";
-import { applicationMiddleware } from "../middleware/application.middleware";
 
 export const applicationRouter = express.Router();
 
