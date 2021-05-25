@@ -7,7 +7,7 @@ import { jobService } from "../services/entities/job.service";
 import { ApplicationStatus } from "../enum/application.enum";
 import { ApplicationDataInterface } from "../interface/application.interface";
 import { isValidObjectId } from "mongoose";
-import { ApplicationExporter } from "../exporters/application.exporter";
+import { AddApplicationExporter, ChangeApplicationStatusExporter } from "../exporters/application.exporter";
 
 
 export const addApplication = baseController(async (req: Request) => {
@@ -47,19 +47,18 @@ export const addApplication = baseController(async (req: Request) => {
         return applicationData;
     });
     const applicationDataArray: ApplicationDataInterface[] = await Promise.all(promise);
-    return applicationDataArray;
+    return new AddApplicationExporter().exportList(applicationDataArray);
 });
 
 export const rejectOrAcceptCandidateApplication = baseController(async (req: Request) => {
     const applicationId = req.params.application_id;
     const status = req.body.application_status;
     const application = await applicationService.changeStatus(applicationId, status);
-    console.log(application)
     const job = await jobService.get(application.job);
     if(status === ApplicationStatus.ACCEPTED){
         await jobService.handleVacancies(job._id);
     }
-    return new ApplicationExporter().export(application);
+    return new ChangeApplicationStatusExporter().export(application);
 }, changeStatusValidator);
 
 export const deleteApplication = baseController(async (req: Request) => {

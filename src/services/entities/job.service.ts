@@ -12,7 +12,7 @@ class JobService {
     async getAllOpenJobs(): Promise<JobInterface[]> {
         return Job.find({
             status: true
-        });
+        }).populate('organization');
     }
 
     async create(payload: JobInterface, userId: string): Promise<JobInterface> {

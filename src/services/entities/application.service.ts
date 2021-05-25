@@ -19,7 +19,10 @@ class ApplicationService {
         return Application.find({
             applicant: userId
         }).populate({
-            path: 'job'
+            path: 'job',
+            populate: {
+                path: 'organization'
+            }
         });
     }
 

@@ -1,6 +1,5 @@
 import { Request } from "express";
-import { CandidateExporter } from "../exporters/candidate.exporter";
-import { JobExporter } from "../exporters/job.exporter";
+import { AppliedCandidateForJobExporter, JobExporter } from "../exporters/job.exporter";
 import { JobInterface } from "../interface/job.interface";
 import { jobService } from "../services/entities/job.service";
 import { addJobValidator, listJobApplicantValidator } from "../validator/job.validator";
@@ -15,5 +14,6 @@ export const addJob = baseController(async (req: Request) => {
 export const listAppliedCandidates = baseController(async (req: Request) => {
     const jobId = req.params.job_id;
     const getCandidates = await jobService.getCandidates(jobId);
-    return new JobExporter().export(getCandidates);
+    // return getCandidates;
+    return new AppliedCandidateForJobExporter().export(getCandidates);
 }, listJobApplicantValidator);

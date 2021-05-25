@@ -8,7 +8,7 @@ import { jwtService } from "../services/factories/jwt.service";
 import { HttpException } from "../utils/exception";
 import { applicationService } from "../services/entities/application.service";
 import { CandidateExporter } from "../exporters/candidate.exporter";
-import { ApplicationExporter } from "../exporters/application.exporter";
+import { ListMyApplicationExporter } from "../exporters/application.exporter";
 
 export const signup = baseController(async (req: Request) => {
     const data = req.body as CandidateInterface;
@@ -30,5 +30,5 @@ export const login = baseController(async (req: Request) => {
 
 export const listMyApplications = baseController(async(req: Request) => {
     const myJobs = await applicationService.listMyApplication(req.user._id);
-    return new ApplicationExporter().exportList(myJobs);
+    return new ListMyApplicationExporter().exportList(myJobs);
 });

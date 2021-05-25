@@ -8,4 +8,4 @@ import { jobMiddleware } from "../middleware/job.middleware";
 export const jobRouter = express.Router();
 
 jobRouter.post("/", [authMiddleware, recruiterMiddleware], addJob);
-jobRouter.get("/:job_id/candidates", [authMiddleware], listAppliedCandidates);
+jobRouter.get("/:job_id/list-candidates", [authMiddleware], listAppliedCandidates);

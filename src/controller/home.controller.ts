@@ -1,3 +1,4 @@
+import { JobExporter } from "../exporters/job.exporter";
 import { blacklistedTokenService } from "../services/entities/blacklisted-token.service";
 import { jobService } from "../services/entities/job.service";
 import { baseController } from "./base.controller";
@@ -13,5 +14,5 @@ export const logout = baseController(async (req: Request) => {
 
 export const listOpenJobs = baseController(async (req: Request) => {
     const jobs = await jobService.getAllOpenJobs();
-    return jobs;
+    return new JobExporter().exportList(jobs);
 });
