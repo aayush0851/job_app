@@ -16,3 +16,9 @@ export const listOpenJobs = baseController(async (req: Request) => {
     const jobs = await jobService.getAllOpenJobs();
     return new JobExporter().exportList(jobs);
 });
+
+export const test = baseController(async (req: Request) => {
+    return {
+        message: "job-app-aayush0851 is now live"
+    }
+});

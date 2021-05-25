@@ -1,5 +1,5 @@
 import express, {Response} from "express";
-import { logout } from "../controller/home.controller";
+import { logout, test } from "../controller/home.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { applicationRouter } from "./application.route";
 import { candidateRouter } from "./candidate.routes";
@@ -15,8 +15,4 @@ baseRouter.use("/candidates", candidateRouter);
 baseRouter.use("/applications", applicationRouter);
 baseRouter.use("/jobs", jobRouter);
 baseRouter.post("/logout", [authMiddleware], logout)
-baseRouter.get("/", (res: Response) => {
-    res.json({
-        message: "job-app-aayush0851 is now online"
-    })
-});
+baseRouter.get("/", test);
