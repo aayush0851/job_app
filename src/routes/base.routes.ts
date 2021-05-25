@@ -16,7 +16,7 @@ baseRouter.use("/applications", applicationRouter);
 baseRouter.use("/jobs", jobRouter);
 baseRouter.post("/logout", [authMiddleware], logout)
 baseRouter.get("/", (res: Response) => {
-    res.status(200).json({
+    res.json({
         message: "job-app-aayush0851 is now online"
     })
 });
