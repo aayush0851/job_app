@@ -1,0 +1,1 @@
+{"_id":{"$oid":"60ad25e9304693244b4718cc"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFkMGZkODhkNjQ5YzIzMTcyOTU3MjUiLCJpYXQiOjE2MjE5NTUxNjgsImV4cCI6MTYyMTk2OTU2OH0.Bvu3sFOAkz-0fevKfLL-_z5L5qDaCF-orpgqb4pwtao","createdAt":{"$date":{"$numberLong":"1621960169575"}},"updatedAt":{"$date":{"$numberLong":"1621960169575"}},"__v":{"$numberInt":"0"}}
