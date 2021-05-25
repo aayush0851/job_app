@@ -10,4 +10,5 @@ export interface RecruiterInterface extends Document{
     website: string;
     email: string;
     password: string;
+    createdAt?: Date;
 }

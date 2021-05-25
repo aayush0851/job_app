@@ -18,7 +18,7 @@ const candidateSchema: Schema = new Schema<CandidateInterface>({
     },
     phone_number: {
         type: String,
-        required: false,
+        required: true,
         min: 10,
         max: 13
     },

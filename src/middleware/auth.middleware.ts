@@ -17,8 +17,8 @@ export const authMiddleware = baseMiddleware(async (req: Request, res: Response,
         throw new HttpException("You need to login first", 422);
     }
 
-    const isValid = await blacklistedTokenService.isTokenBlacklisted(authToken);
-    if(!isValid) {
+    const isBlacklisted = await blacklistedTokenService.isTokenBlacklisted(authToken);
+    if(isBlacklisted) {
         throw new HttpException("You need to login first", 422);
     }
 

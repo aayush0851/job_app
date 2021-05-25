@@ -7,11 +7,13 @@ import * as bcrypt from "bcrypt";
 import { jwtService } from "../services/factories/jwt.service";
 import { HttpException } from "../utils/exception";
 import { applicationService } from "../services/entities/application.service";
+import { CandidateExporter } from "../exporters/candidate.exporter";
+import { ApplicationExporter } from "../exporters/application.exporter";
 
 export const signup = baseController(async (req: Request) => {
     const data = req.body as CandidateInterface;
-    const newRecruiter = await candidateService.create(data);
-    return newRecruiter;
+    const newCandidate = await candidateService.create(data);
+    return new CandidateExporter().export(newCandidate);
 }, addCandidateValidator);
 
 export const login = baseController(async (req: Request) => {
@@ -22,11 +24,11 @@ export const login = baseController(async (req: Request) => {
     }
     return {
         auth_token: await jwtService.createToken(candidate._id),
-        user: candidate
+        user: await new CandidateExporter().export(candidate)
     }
 }, candidateLoginValidator);
 
 export const listMyApplications = baseController(async(req: Request) => {
     const myJobs = await applicationService.listMyApplication(req.user._id);
-    return myJobs;
+    return new ApplicationExporter().exportList(myJobs);
 });

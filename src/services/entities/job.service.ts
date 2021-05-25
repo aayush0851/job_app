@@ -16,10 +16,11 @@ class JobService {
     }
 
     async create(payload: JobInterface, userId: string): Promise<JobInterface> {
-        return Job.create({
+        const job = await Job.create({
             ...payload,
             organization: userId
         });
+        return this.get(job._id);
     }
 
     async addApplicationToJob(jobId: string, applicationId: string): Promise<JobInterface> {
@@ -31,11 +32,16 @@ class JobService {
     }
 
     async get(id: string): Promise<JobInterface> {
-        return Job.findById(id);
+        return Job.findById(id).populate('organization');
     }
 
-    async getCandidates(jobId: string): Promise<any> {
-        return Job.findById(jobId).populate('applications')
+    async getCandidates(jobId: string): Promise<JobInterface> {
+        return Job.findById(jobId).populate({
+            path: 'applications',
+            populate: {
+                path: 'applicant'
+            }
+        })
     }
 
     async handleVacancies(jobId: string): Promise<JobInterface> {
@@ -45,7 +51,7 @@ class JobService {
                 no_of_vacancies: flag
             }
         });
-        if(job.no_of_vacancies <=0 ){
+        if(job.no_of_vacancies <= 1 ){
             job = await job.updateOne({
                 status: false
             })

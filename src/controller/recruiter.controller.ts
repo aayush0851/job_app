@@ -6,12 +6,12 @@ import { baseController } from "./base.controller";
 import * as bcrypt from "bcrypt";
 import { jwtService } from "../services/factories/jwt.service";
 import { HttpException } from "../utils/exception";
-import { applicationService } from "../services/entities/application.service";
+import { RecruiterExporter } from "../exporters/recruiter.exporter";
 
 export const signup = baseController(async (req: Request) => {
     let data = req.body as RecruiterInterface;
     const newRecruiter = await recruiterService.create(data);
-    return newRecruiter;
+    return new RecruiterExporter().export(newRecruiter);
 }, addRecruiterValidator);
 
 export const login = baseController(async (req: Request) => {
@@ -22,6 +22,6 @@ export const login = baseController(async (req: Request) => {
     }
     return {
         auth_token: await jwtService.createToken(recruiter._id),
-        user: recruiter
+        recruiter: await new RecruiterExporter().export(recruiter)
     }
 }, recruiterLoginValidator);

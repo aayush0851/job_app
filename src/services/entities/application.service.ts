@@ -18,7 +18,9 @@ class ApplicationService {
     async listMyApplication(userId: string): Promise<ApplicationInterface[]> {
         return Application.find({
             applicant: userId
-        }).populate('job');
+        }).populate({
+            path: 'job'
+        });
     }
 
     async create(jobId: string, userId: string): Promise<ApplicationInterface> {
@@ -31,13 +33,14 @@ class ApplicationService {
     }
 
     async get(applicationId: string): Promise<ApplicationInterface> {
-        return Application.findById(applicationId);
+        return Application.findById(applicationId).populate('applicant');
     }
 
     async changeStatus(applicationId: string, status: ApplicationStatus): Promise<ApplicationInterface> {
-        return Application.findByIdAndUpdate(applicationId, {
+        await Application.findByIdAndUpdate(applicationId, {
             application_status: status
-        })
+        });
+        return this.get(applicationId);
     }
 
     async delete(applicationId: string): Promise<any> {

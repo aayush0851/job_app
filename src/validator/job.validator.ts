@@ -16,7 +16,7 @@ export const addJobValidator: Schema = Joi.object({
     job_position: Joi.string().required(),
     job_description: Joi.string().required(),
     job_type: Joi.string().valid(...Object.values(JobTypes)),
-    no_of_vacancies: Joi.number().integer().required()
+    no_of_vacancies: Joi.number().integer().min(1).required()
 });
 
 export const listJobApplicantValidator: Schema = Joi.object({
