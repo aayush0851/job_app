@@ -7,4 +7,6 @@ export interface JobInterface extends Document{
     job_type?: JobTypes;
     status: boolean;
     no_of_vacancies: number;
+    organization?: string;
+    applications?: string[];
 }

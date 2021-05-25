@@ -6,6 +6,7 @@ import { baseController } from "./base.controller";
 import * as bcrypt from "bcrypt";
 import { jwtService } from "../services/factories/jwt.service";
 import { HttpException } from "../utils/exception";
+import { applicationService } from "../services/entities/application.service";
 
 export const signup = baseController(async (req: Request) => {
     let data = req.body as RecruiterInterface;

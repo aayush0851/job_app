@@ -6,6 +6,7 @@ import { baseController } from "./base.controller";
 import * as bcrypt from "bcrypt";
 import { jwtService } from "../services/factories/jwt.service";
 import { HttpException } from "../utils/exception";
+import { applicationService } from "../services/entities/application.service";
 
 export const signup = baseController(async (req: Request) => {
     const data = req.body as CandidateInterface;
@@ -24,3 +25,8 @@ export const login = baseController(async (req: Request) => {
         user: candidate
     }
 }, candidateLoginValidator);
+
+export const listMyApplications = baseController(async(req: Request) => {
+    const myJobs = await applicationService.listMyApplication(req.user._id);
+    return myJobs;
+});

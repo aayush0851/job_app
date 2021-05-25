@@ -14,7 +14,7 @@ const jobSchema: Schema = new Schema({
     },
     status: {
         type: Boolean,
-        default: false
+        default: true
     },
     job_type: {
         type: String,

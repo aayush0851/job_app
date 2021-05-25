@@ -15,7 +15,7 @@ export const jobExists = async (jobId: string) => {
 export const addJobValidator: Schema = Joi.object({
     job_position: Joi.string().required(),
     job_description: Joi.string().required(),
-    job_type: Joi.string().valid(JobTypes.FULL_TIME, JobTypes.PART_TIME, JobTypes.INTERNSHIP),
+    job_type: Joi.string().valid(...Object.values(JobTypes)),
     no_of_vacancies: Joi.number().integer().required()
 });
 

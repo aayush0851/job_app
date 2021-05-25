@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+import { UserTypes } from "../enum/user.enum";
 import { CandidateInterface } from "../interface/candidate.interface";
 import { RecruiterInterface } from "../interface/recruiter.interface";
+import { blacklistedTokenService } from "../services/entities/blacklisted-token.service";
 import { candidateService } from "../services/entities/candidate.service";
 import { recruiterService } from "../services/entities/recruiter.service";
 import { jwtService } from "../services/factories/jwt.service";
@@ -12,7 +14,12 @@ export const authMiddleware = baseMiddleware(async (req: Request, res: Response,
     //@ts-ignore
     const authToken = req.headers.authorization;
     if(!authToken){
-        throw new HttpException("Token Not Found", 422);
+        throw new HttpException("You need to login first", 422);
+    }
+
+    const isValid = await blacklistedTokenService.isTokenBlacklisted(authToken);
+    if(!isValid) {
+        throw new HttpException("You need to login first", 422);
     }
 
     const payload  = jwtService.parseToken(authToken);
@@ -25,10 +32,12 @@ export const authMiddleware = baseMiddleware(async (req: Request, res: Response,
     let user: CandidateInterface | RecruiterInterface;
     
     user = await candidateService.get(UID) ?? await recruiterService.get(UID);
-    console.log(user);
+    
     if(!user){
         throw new HttpException("Invalid Token", 422);
     }
+    
+    user["user_type"] = user.collection.name==="recruiters" ?  UserTypes.RECRUITER : UserTypes.CANDIDATE;
 
     req.user = user;
 });
