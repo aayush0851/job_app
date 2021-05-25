@@ -1,5 +1,4 @@
 import { connect } from "mongoose";
-import { Candidate } from "../../models/candidate.model";
 import { MONGO_URL } from "../../utils/handleEnv";
 
 class DatabaseService{

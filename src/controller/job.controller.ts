@@ -14,6 +14,5 @@ export const addJob = baseController(async (req: Request) => {
 export const listAppliedCandidates = baseController(async (req: Request) => {
     const jobId = req.params.job_id;
     const getCandidates = await jobService.getCandidates(jobId);
-    // return getCandidates;
     return new AppliedCandidateForJobExporter().export(getCandidates);
 }, listJobApplicantValidator);

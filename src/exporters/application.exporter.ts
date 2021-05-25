@@ -3,20 +3,28 @@ import {BaseExporter} from "./base.exporter";
 
 export class AddApplicationExporter extends BaseExporter<ApplicationDataInterface> {
     protected async _map(applicationData: ApplicationDataInterface): Promise<any>{
-        return {
-            message: applicationData.message,
-            job_applied_for: {
+        let data: any = {};
+
+        if(applicationData.message){
+            data.message = applicationData.message
+        }
+        if(applicationData.job){
+            data.job_applied_for = {
                 _id: applicationData.job._id,
                 job_designation: applicationData.job.job_position,
-                type: applicationData.job.job_type
-            },
-            application: {
+                type: applicationData.job.job_type,
+                organization_name: applicationData.job.organization.organization_name
+            }
+        }
+        if(applicationData.application){
+            data.application = {
                 _id: applicationData.application._id,
                 application_filed_on: applicationData.application.createdAt,
                 application_status: applicationData.application.application_status,
                 applicant: applicationData.application.applicant,
             }
         }
+        return data;
     }
 }
 

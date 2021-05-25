@@ -8,6 +8,8 @@ import { ApplicationStatus } from "../enum/application.enum";
 import { ApplicationDataInterface } from "../interface/application.interface";
 import { isValidObjectId } from "mongoose";
 import { AddApplicationExporter, ChangeApplicationStatusExporter } from "../exporters/application.exporter";
+import { nodemailerService } from "../services/factories/nodemailer.service";
+import { MailType } from "../enum/mail.enum";
 
 
 export const addApplication = baseController(async (req: Request) => {
@@ -36,9 +38,14 @@ export const addApplication = baseController(async (req: Request) => {
                 }
                 else{
                     applicationData.application = await applicationService.create(jobId, req.user._id);
+                    nodemailerService.sendMail("New Application", job.organization.email, {
+                        mailType: MailType.NEW_JOB_APPLICATION,
+                        jobPosition: job.job_position
+                    });
                 }
     
-            }else{
+            }
+            else{
                 applicationData.message = "You have already applied to this job";
                 applicationData.application = application;
                 applicationData.job = job;
@@ -57,6 +64,20 @@ export const rejectOrAcceptCandidateApplication = baseController(async (req: Req
     const job = await jobService.get(application.job);
     if(status === ApplicationStatus.ACCEPTED){
         await jobService.handleVacancies(job._id);
+        //@ts-ignore
+        nodemailerService.sendMail("Application Updated", application.applicant.email, {
+            mailType: MailType.APPLICATION_UPDATE,
+            organizationName: job.organization.organization_name,
+            applicationStatus: ApplicationStatus.ACCEPTED
+        });
+    }
+    else if(status === ApplicationStatus.ACCEPTED){
+        //@ts-ignore
+        nodemailerService.sendMail("Application Updated", application.applicant.email, {
+            mailType: MailType.APPLICATION_UPDATE,
+            organizationName: job.organization.organization_name,
+            applicationStatus: ApplicationStatus.REJECTED
+        });
     }
     return new ChangeApplicationStatusExporter().export(application);
 }, changeStatusValidator);

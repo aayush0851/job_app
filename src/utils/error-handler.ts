@@ -5,7 +5,7 @@ export const errorHandler = (method: Function) => (async (req: Request, res: Res
         await method(req, res, next);
     }
     catch(e){
-        res.status(e?.statusCode).json({
+        res.status(200).json({
             message: e?.message,
             errors: e?.errors
         });
