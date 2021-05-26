@@ -1,8 +1,5 @@
-import { CandidateInterface } from "../../interface/candidate.interface";
 import { JobInterface } from "../../interface/job.interface";
-import { Candidate } from "../../models/candidate.model";
 import { Job } from "../../models/job.model";
-import { HttpException } from "../../utils/exception";
 
 class JobService {
     static getInstance(): JobService {

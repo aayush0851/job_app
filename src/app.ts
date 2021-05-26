@@ -1,9 +1,8 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import { ENV_APP_PORT, MONGO_URL } from './utils/handleEnv';
+import { ENV_APP_PORT } from './utils/handleEnv';
 import { baseRouter } from './routes/base.routes';
 import { databaseService } from './services/factories/db.service';
-import { Mongoose,connect } from 'mongoose';
 
 export class Application {
     private readonly APP: express.Application;

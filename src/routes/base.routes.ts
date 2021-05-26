@@ -1,4 +1,4 @@
-import express, {Response} from "express";
+import express from "express";
 import { logout, test } from "../controller/home.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { applicationRouter } from "./application.route";

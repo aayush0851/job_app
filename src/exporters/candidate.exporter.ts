@@ -1,4 +1,3 @@
-import { ApplicationInterface } from "../interface/application.interface";
 import { CandidateInterface } from "../interface/candidate.interface";
 import {BaseExporter} from "./base.exporter";
 
